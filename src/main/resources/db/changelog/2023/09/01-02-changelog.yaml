@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693595819852-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: role_id
+                  type: BIGINT
+            tableName: t_user
+  - changeSet:
+      id: 1693595819852-4
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: role_id
+            tableName: t_user
+  - changeSet:
+      id: 1693595819852-5
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: t_user
+            constraintName: FK_T_USER_ON_ROLE
+            referencedColumnNames: id
+            referencedTableName: t_user_role
+  - changeSet:
+      id: 1693595819852-6
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_user_detail
+            constraintName: fk_t_user_detail_on_role
+  - changeSet:
+      id: 1693595819852-7
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_user
+            constraintName: fk_t_user_on_user_detail
+  - changeSet:
+      id: 1693595819852-8
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            tableName: t_user_detail
+  - changeSet:
+      id: 1693595819852-9
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: user_detail_id
+            tableName: t_user
+

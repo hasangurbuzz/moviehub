@@ -1,0 +1,240 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693405797719-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_movie
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: director
+                  type: VARCHAR(255)
+            tableName: t_movie
+  - changeSet:
+      id: 1693405797719-2
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_role_permission
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: permission_id
+                  type: BIGINT
+            tableName: t_role_permission
+  - changeSet:
+      id: 1693405797719-3
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_detail_id
+                  type: BIGINT
+            tableName: t_user
+  - changeSet:
+      id: 1693405797719-4
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_detail
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role_id
+                  type: BIGINT
+            tableName: t_user_detail
+  - changeSet:
+      id: 1693405797719-5
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_permission
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(255)
+            tableName: t_user_permission
+  - changeSet:
+      id: 1693405797719-6
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_role
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: t_user_role
+  - changeSet:
+      id: 1693405797719-7
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_role_permissions
+                  name: role_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_role_permissions
+                  name: permissions_id
+                  type: BIGINT
+            tableName: t_user_role_permissions
+  - changeSet:
+      id: 1693405797719-8
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: type
+            constraintName: uc_t_user_permission_type
+            tableName: t_user_permission
+  - changeSet:
+      id: 1693405797719-9
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: permission_id
+            baseTableName: t_role_permission
+            constraintName: FK_T_ROLE_PERMISSION_ON_PERMISSION
+            referencedColumnNames: id
+            referencedTableName: t_user_permission
+  - changeSet:
+      id: 1693405797719-10
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: t_role_permission
+            constraintName: FK_T_ROLE_PERMISSION_ON_ROLE
+            referencedColumnNames: id
+            referencedTableName: t_user_role
+  - changeSet:
+      id: 1693405797719-11
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: t_user_detail
+            constraintName: FK_T_USER_DETAIL_ON_ROLE
+            referencedColumnNames: id
+            referencedTableName: t_user_role
+  - changeSet:
+      id: 1693405797719-12
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_detail_id
+            baseTableName: t_user
+            constraintName: FK_T_USER_ON_USER_DETAIL
+            referencedColumnNames: id
+            referencedTableName: t_user_detail
+  - changeSet:
+      id: 1693405797719-13
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: permissions_id
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_permission
+            referencedColumnNames: id
+            referencedTableName: t_user_permission
+  - changeSet:
+      id: 1693405797719-14
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_role
+            referencedColumnNames: id
+            referencedTableName: t_user_role
+

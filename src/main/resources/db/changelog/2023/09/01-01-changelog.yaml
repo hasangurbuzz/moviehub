@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693564369804-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_comment
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: content
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: movie_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+            tableName: t_comment
+  - changeSet:
+      id: 1693564369804-2
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: movie_id
+            baseTableName: t_comment
+            constraintName: FK_T_COMMENT_ON_MOVIE
+            referencedColumnNames: id
+            referencedTableName: t_movie
+  - changeSet:
+      id: 1693564369804-3
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: t_comment
+            constraintName: FK_T_COMMENT_ON_USER
+            referencedColumnNames: id
+            referencedTableName: t_user
+  - changeSet:
+      id: 1693564369804-4
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropPrimaryKey:
+            constraintName: pk_t_user_role_permissions
+            tableName: t_user_role_permissions
+

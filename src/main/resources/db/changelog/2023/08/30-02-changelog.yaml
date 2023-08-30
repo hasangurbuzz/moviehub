@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693405897692-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_permission
+  - changeSet:
+      id: 1693405897692-2
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_role
+  - changeSet:
+      id: 1693405897692-3
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            tableName: t_user_role_permissions
+

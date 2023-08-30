@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693406801021-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_role_permissions
+                  name: role_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_t_user_role_permissions
+                  name: permissions_id
+                  type: BIGINT
+            tableName: t_user_role_permissions
+  - changeSet:
+      id: 1693406801021-2
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: permissions_id
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_permission
+            referencedColumnNames: id
+            referencedTableName: t_user_permission
+  - changeSet:
+      id: 1693406801021-3
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: t_user_role_permissions
+            constraintName: fk_tuserolper_on_role
+            referencedColumnNames: id
+            referencedTableName: t_user_role
+  - changeSet:
+      id: 1693406801021-4
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_role_permission
+            constraintName: fk_t_role_permission_on_permission
+  - changeSet:
+      id: 1693406801021-5
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: t_role_permission
+            constraintName: fk_t_role_permission_on_role
+  - changeSet:
+      id: 1693406801021-6
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            tableName: t_role_permission
+

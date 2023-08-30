@@ -1,0 +1,547 @@
+openapi: 3.0.3
+info:
+  title: MovieBlog
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register
+      operationId: auth_register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login
+      operationId: auth_login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtToken'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+  /movie/create:
+    post:
+      tags:
+        - movie
+      summary: Create movie
+      operationId: movie_create
+      security:
+        - OAuth: []
+        - JwtAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieCreateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /movie/search:
+    post:
+      tags:
+        - movie
+      summary: Search movie
+      operationId: movie_search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieSearchRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieSearchResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /movie/{movieId}/comment/create:
+    post:
+      tags:
+        - movie
+      summary: Create comment
+      operationId: movie_createComment
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /movie/{movieId}/comment/search:
+    post:
+      tags:
+        - movie
+      summary: Search comment
+      operationId: movie_searchComment
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentSearchResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /movie/{movieId}/comment/{commentId}/delete:
+    post:
+      tags:
+        - movie
+      summary: Delete comment
+      operationId: movie_deleteComment
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /management/role/search:
+    post:
+      tags:
+        - management
+      summary: Search role
+      operationId: role_searchRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleSearchRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleSearchResponse'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /management/role/create:
+    post:
+      tags:
+        - management
+      summary: Create role
+      operationId: role_createRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleCreateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /management/role/{roleId}/delete:
+    post:
+      tags:
+        - management
+      summary: Delete role
+      operationId: role_deleteRole
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /management/user/{userId}/role:
+    post:
+      tags:
+        - management
+      summary: Modify user's role
+      operationId: user_modifyUserRole
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRoleRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    AuthRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AuthRegisterResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+
+    Movie:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - director
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        director:
+          type: string
+
+    MovieCreateRequest:
+      type: object
+      required:
+        - title
+        - description
+        - director
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        director:
+          type: string
+
+    RoleCreateRequest:
+      type: object
+      required:
+        - name
+        - permissions
+      properties:
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+
+    RoleSearchRequest:
+      type: object
+      required:
+        - name
+        - pageRequest
+      properties:
+        name:
+          type: string
+        pageRequest:
+          $ref: '#/components/schemas/PageRequest'
+
+    RoleSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+
+    Permission:
+      type: string
+      enum: [WRITE, READ]
+
+    UserUpdateRoleRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+
+    MovieSearchRequest:
+      type: object
+      required:
+        - title
+        - pageRequest
+      properties:
+        title:
+          type: string
+        pageRequest:
+          $ref: '#/components/schemas/PageRequest'
+
+    MovieSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        content:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+
+    CommentCreateRequest:
+      type: object
+      properties:
+        content:
+          type: string
+
+    CommentSearchResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+
+    PageRequest:
+      type: object
+      properties:
+        from:
+          type: integer
+          default: 0
+        size:
+          type: integer
+          default: 20
+
+    Error:
+      type: object
+      properties:
+        tag:
+          $ref: '#/components/schemas/ErrorTag'
+        message:
+          type: string
+
+    ErrorTag:
+      type: string
+      enum: [
+        INVALID_INPUT,
+        ACCESS_DENIED,
+        INVALID_TOKEN,
+        NOT_FOUND
+      ]
+
+    JwtToken:
+      type: object
+      properties:
+        value:
+          type: string
+        expiration:
+          type: string
+          format: date-time
+
+
+  securitySchemes:
+    JwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost:8080/api/oauth2/authorization/google
+          tokenUrl: http://localhost:8080/api/auth/oauth/google/code
+          scopes:
+            read: Read Access
+            write: Write Access

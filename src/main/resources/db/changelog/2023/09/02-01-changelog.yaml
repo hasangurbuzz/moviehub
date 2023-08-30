@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693677236485-1
+      author: hasan
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: movie_id
+            indexName: idx_comment_movie_id
+            tableName: t_comment
+
